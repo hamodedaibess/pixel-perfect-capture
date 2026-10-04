@@ -12,7 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ReportsIndexRouteImport } from './routes/reports.index'
+import { Route as ReportsActivityRouteImport } from './routes/reports.activity'
+import { Route as ReportsPaymentsRouteImport } from './routes/reports.payments'
+import { Route as ReportsRefundsRouteImport } from './routes/reports.refunds'
+import { Route as ReportsSalesRouteImport } from './routes/reports.sales'
 import { Route as ReportsSessionsRouteImport } from './routes/reports.sessions'
+import { Route as ReportsStaffRouteImport } from './routes/reports.staff'
 import { Route as ReportsTablesRouteImport } from './routes/reports.tables'
 import { Route as ReportsSessionsSessionIdRouteImport } from './routes/reports.sessions.$sessionId'
 import { Route as ReportsTablesTableIdRouteImport } from './routes/reports.tables.$tableId'
@@ -32,9 +37,34 @@ const ReportsIndexRoute = ReportsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ReportsRoute,
 } as any)
+const ReportsActivityRoute = ReportsActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => ReportsRoute,
+} as any)
+const ReportsPaymentsRoute = ReportsPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => ReportsRoute,
+} as any)
+const ReportsRefundsRoute = ReportsRefundsRouteImport.update({
+  id: '/refunds',
+  path: '/refunds',
+  getParentRoute: () => ReportsRoute,
+} as any)
+const ReportsSalesRoute = ReportsSalesRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => ReportsRoute,
+} as any)
 const ReportsSessionsRoute = ReportsSessionsRouteImport.update({
   id: '/sessions',
   path: '/sessions',
+  getParentRoute: () => ReportsRoute,
+} as any)
+const ReportsStaffRoute = ReportsStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
   getParentRoute: () => ReportsRoute,
 } as any)
 const ReportsTablesRoute = ReportsTablesRouteImport.update({
@@ -57,7 +87,12 @@ const ReportsTablesTableIdRoute = ReportsTablesTableIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/reports': typeof ReportsRouteWithChildren
+  '/reports/activity': typeof ReportsActivityRoute
+  '/reports/payments': typeof ReportsPaymentsRoute
+  '/reports/refunds': typeof ReportsRefundsRoute
+  '/reports/sales': typeof ReportsSalesRoute
   '/reports/sessions': typeof ReportsSessionsRouteWithChildren
+  '/reports/staff': typeof ReportsStaffRoute
   '/reports/tables': typeof ReportsTablesRouteWithChildren
   '/reports/': typeof ReportsIndexRoute
   '/reports/sessions/$sessionId': typeof ReportsSessionsSessionIdRoute
@@ -65,7 +100,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/reports/activity': typeof ReportsActivityRoute
+  '/reports/payments': typeof ReportsPaymentsRoute
+  '/reports/refunds': typeof ReportsRefundsRoute
+  '/reports/sales': typeof ReportsSalesRoute
   '/reports/sessions': typeof ReportsSessionsRouteWithChildren
+  '/reports/staff': typeof ReportsStaffRoute
   '/reports/tables': typeof ReportsTablesRouteWithChildren
   '/reports': typeof ReportsIndexRoute
   '/reports/sessions/$sessionId': typeof ReportsSessionsSessionIdRoute
@@ -75,7 +115,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/reports': typeof ReportsRouteWithChildren
+  '/reports/activity': typeof ReportsActivityRoute
+  '/reports/payments': typeof ReportsPaymentsRoute
+  '/reports/refunds': typeof ReportsRefundsRoute
+  '/reports/sales': typeof ReportsSalesRoute
   '/reports/sessions': typeof ReportsSessionsRouteWithChildren
+  '/reports/staff': typeof ReportsStaffRoute
   '/reports/tables': typeof ReportsTablesRouteWithChildren
   '/reports/': typeof ReportsIndexRoute
   '/reports/sessions/$sessionId': typeof ReportsSessionsSessionIdRoute
@@ -86,7 +131,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/reports'
+    | '/reports/activity'
+    | '/reports/payments'
+    | '/reports/refunds'
+    | '/reports/sales'
     | '/reports/sessions'
+    | '/reports/staff'
     | '/reports/tables'
     | '/reports/'
     | '/reports/sessions/$sessionId'
@@ -94,7 +144,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/reports/activity'
+    | '/reports/payments'
+    | '/reports/refunds'
+    | '/reports/sales'
     | '/reports/sessions'
+    | '/reports/staff'
     | '/reports/tables'
     | '/reports'
     | '/reports/sessions/$sessionId'
@@ -103,7 +158,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/reports'
+    | '/reports/activity'
+    | '/reports/payments'
+    | '/reports/refunds'
+    | '/reports/sales'
     | '/reports/sessions'
+    | '/reports/staff'
     | '/reports/tables'
     | '/reports/'
     | '/reports/sessions/$sessionId'
@@ -138,11 +198,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportsIndexRouteImport
       parentRoute: typeof ReportsRoute
     }
+    '/reports/activity': {
+      id: '/reports/activity'
+      path: '/activity'
+      fullPath: '/reports/activity'
+      preLoaderRoute: typeof ReportsActivityRouteImport
+      parentRoute: typeof ReportsRoute
+    }
+    '/reports/payments': {
+      id: '/reports/payments'
+      path: '/payments'
+      fullPath: '/reports/payments'
+      preLoaderRoute: typeof ReportsPaymentsRouteImport
+      parentRoute: typeof ReportsRoute
+    }
+    '/reports/refunds': {
+      id: '/reports/refunds'
+      path: '/refunds'
+      fullPath: '/reports/refunds'
+      preLoaderRoute: typeof ReportsRefundsRouteImport
+      parentRoute: typeof ReportsRoute
+    }
+    '/reports/sales': {
+      id: '/reports/sales'
+      path: '/sales'
+      fullPath: '/reports/sales'
+      preLoaderRoute: typeof ReportsSalesRouteImport
+      parentRoute: typeof ReportsRoute
+    }
     '/reports/sessions': {
       id: '/reports/sessions'
       path: '/sessions'
       fullPath: '/reports/sessions'
       preLoaderRoute: typeof ReportsSessionsRouteImport
+      parentRoute: typeof ReportsRoute
+    }
+    '/reports/staff': {
+      id: '/reports/staff'
+      path: '/staff'
+      fullPath: '/reports/staff'
+      preLoaderRoute: typeof ReportsStaffRouteImport
       parentRoute: typeof ReportsRoute
     }
     '/reports/tables': {
@@ -194,13 +289,23 @@ const ReportsTablesRouteWithChildren = ReportsTablesRoute._addFileChildren(
 )
 
 interface ReportsRouteChildren {
+  ReportsActivityRoute: typeof ReportsActivityRoute
+  ReportsPaymentsRoute: typeof ReportsPaymentsRoute
+  ReportsRefundsRoute: typeof ReportsRefundsRoute
+  ReportsSalesRoute: typeof ReportsSalesRoute
   ReportsSessionsRoute: typeof ReportsSessionsRouteWithChildren
+  ReportsStaffRoute: typeof ReportsStaffRoute
   ReportsTablesRoute: typeof ReportsTablesRouteWithChildren
   ReportsIndexRoute: typeof ReportsIndexRoute
 }
 
 const ReportsRouteChildren: ReportsRouteChildren = {
+  ReportsActivityRoute: ReportsActivityRoute,
+  ReportsPaymentsRoute: ReportsPaymentsRoute,
+  ReportsRefundsRoute: ReportsRefundsRoute,
+  ReportsSalesRoute: ReportsSalesRoute,
   ReportsSessionsRoute: ReportsSessionsRouteWithChildren,
+  ReportsStaffRoute: ReportsStaffRoute,
   ReportsTablesRoute: ReportsTablesRouteWithChildren,
   ReportsIndexRoute: ReportsIndexRoute,
 }
