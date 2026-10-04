@@ -12,6 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ReportsIndexRouteImport } from './routes/reports.index'
+import { Route as ReportsSessionsRouteImport } from './routes/reports.sessions'
+import { Route as ReportsTablesRouteImport } from './routes/reports.tables'
+import { Route as ReportsSessionsSessionIdRouteImport } from './routes/reports.sessions.$sessionId'
+import { Route as ReportsTablesTableIdRouteImport } from './routes/reports.tables.$tableId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,28 +32,82 @@ const ReportsIndexRoute = ReportsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ReportsRoute,
 } as any)
+const ReportsSessionsRoute = ReportsSessionsRouteImport.update({
+  id: '/sessions',
+  path: '/sessions',
+  getParentRoute: () => ReportsRoute,
+} as any)
+const ReportsTablesRoute = ReportsTablesRouteImport.update({
+  id: '/tables',
+  path: '/tables',
+  getParentRoute: () => ReportsRoute,
+} as any)
+const ReportsSessionsSessionIdRoute =
+  ReportsSessionsSessionIdRouteImport.update({
+    id: '/$sessionId',
+    path: '/$sessionId',
+    getParentRoute: () => ReportsSessionsRoute,
+  } as any)
+const ReportsTablesTableIdRoute = ReportsTablesTableIdRouteImport.update({
+  id: '/$tableId',
+  path: '/$tableId',
+  getParentRoute: () => ReportsTablesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/reports': typeof ReportsRouteWithChildren
+  '/reports/sessions': typeof ReportsSessionsRouteWithChildren
+  '/reports/tables': typeof ReportsTablesRouteWithChildren
   '/reports/': typeof ReportsIndexRoute
+  '/reports/sessions/$sessionId': typeof ReportsSessionsSessionIdRoute
+  '/reports/tables/$tableId': typeof ReportsTablesTableIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/reports/sessions': typeof ReportsSessionsRouteWithChildren
+  '/reports/tables': typeof ReportsTablesRouteWithChildren
   '/reports': typeof ReportsIndexRoute
+  '/reports/sessions/$sessionId': typeof ReportsSessionsSessionIdRoute
+  '/reports/tables/$tableId': typeof ReportsTablesTableIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/reports': typeof ReportsRouteWithChildren
+  '/reports/sessions': typeof ReportsSessionsRouteWithChildren
+  '/reports/tables': typeof ReportsTablesRouteWithChildren
   '/reports/': typeof ReportsIndexRoute
+  '/reports/sessions/$sessionId': typeof ReportsSessionsSessionIdRoute
+  '/reports/tables/$tableId': typeof ReportsTablesTableIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/reports' | '/reports/'
+  fullPaths:
+    | '/'
+    | '/reports'
+    | '/reports/sessions'
+    | '/reports/tables'
+    | '/reports/'
+    | '/reports/sessions/$sessionId'
+    | '/reports/tables/$tableId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/reports'
-  id: '__root__' | '/' | '/reports' | '/reports/'
+  to:
+    | '/'
+    | '/reports/sessions'
+    | '/reports/tables'
+    | '/reports'
+    | '/reports/sessions/$sessionId'
+    | '/reports/tables/$tableId'
+  id:
+    | '__root__'
+    | '/'
+    | '/reports'
+    | '/reports/sessions'
+    | '/reports/tables'
+    | '/reports/'
+    | '/reports/sessions/$sessionId'
+    | '/reports/tables/$tableId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,14 +138,70 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportsIndexRouteImport
       parentRoute: typeof ReportsRoute
     }
+    '/reports/sessions': {
+      id: '/reports/sessions'
+      path: '/sessions'
+      fullPath: '/reports/sessions'
+      preLoaderRoute: typeof ReportsSessionsRouteImport
+      parentRoute: typeof ReportsRoute
+    }
+    '/reports/tables': {
+      id: '/reports/tables'
+      path: '/tables'
+      fullPath: '/reports/tables'
+      preLoaderRoute: typeof ReportsTablesRouteImport
+      parentRoute: typeof ReportsRoute
+    }
+    '/reports/sessions/$sessionId': {
+      id: '/reports/sessions/$sessionId'
+      path: '/$sessionId'
+      fullPath: '/reports/sessions/$sessionId'
+      preLoaderRoute: typeof ReportsSessionsSessionIdRouteImport
+      parentRoute: typeof ReportsSessionsRoute
+    }
+    '/reports/tables/$tableId': {
+      id: '/reports/tables/$tableId'
+      path: '/$tableId'
+      fullPath: '/reports/tables/$tableId'
+      preLoaderRoute: typeof ReportsTablesTableIdRouteImport
+      parentRoute: typeof ReportsTablesRoute
+    }
   }
 }
 
+interface ReportsSessionsRouteChildren {
+  ReportsSessionsSessionIdRoute: typeof ReportsSessionsSessionIdRoute
+}
+
+const ReportsSessionsRouteChildren: ReportsSessionsRouteChildren = {
+  ReportsSessionsSessionIdRoute: ReportsSessionsSessionIdRoute,
+}
+
+const ReportsSessionsRouteWithChildren = ReportsSessionsRoute._addFileChildren(
+  ReportsSessionsRouteChildren,
+)
+
+interface ReportsTablesRouteChildren {
+  ReportsTablesTableIdRoute: typeof ReportsTablesTableIdRoute
+}
+
+const ReportsTablesRouteChildren: ReportsTablesRouteChildren = {
+  ReportsTablesTableIdRoute: ReportsTablesTableIdRoute,
+}
+
+const ReportsTablesRouteWithChildren = ReportsTablesRoute._addFileChildren(
+  ReportsTablesRouteChildren,
+)
+
 interface ReportsRouteChildren {
+  ReportsSessionsRoute: typeof ReportsSessionsRouteWithChildren
+  ReportsTablesRoute: typeof ReportsTablesRouteWithChildren
   ReportsIndexRoute: typeof ReportsIndexRoute
 }
 
 const ReportsRouteChildren: ReportsRouteChildren = {
+  ReportsSessionsRoute: ReportsSessionsRouteWithChildren,
+  ReportsTablesRoute: ReportsTablesRouteWithChildren,
   ReportsIndexRoute: ReportsIndexRoute,
 }
 
